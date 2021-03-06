@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
+body {
+  font-family: Roboto, sans-serif;
+}
+.enveloppe {
+  max-width: 992px;
+  margin: auto;
+}
+.entete-page__titre {
+  font-weight: 200;
+  border-bottom: 1px dotted #999;
+  padding-bottom: .2em;
+}
+.exercice__titre {
+  font-weight: 200;
+}
+.exercice__consigne {
+  margin: .5em 0;
+}
+.exercice__label-entree {
+  margin-right: 1em;
+  white-space: nowrap;
+}
+.exercice__code-utilisateur,
+.exercice__affichage {
+  background-color: #000;
+  color:#fff;
+  padding: 1em;
+  font-family: monospace;
+  border: 4px solid #999;
+}
+.exercice__affichage {
+  background-color: #ccc;
+  color:#000;
+}
+
