@@ -38,7 +38,7 @@ let piedPage = `
 `;
 let contenu = "";
 
-let tests = "";
+let scripts = "";
 
 for (let i = 0; i < exercices.length; i++) {
   contenu += `
@@ -50,9 +50,14 @@ for (let i = 0; i < exercices.length; i++) {
     <div class="exercice__consigne">
       ${exercices[i].consigne}
     </div>
-    <pre class="exercice__code-utilisateur" id="ex-${i}-code">
-// Votre code javascript ici
-    </pre>
+    <textarea  class="exercice__code-utilisateur" id="ex-${i}-code"><!-- 
+
+// Exercice ${i} - Votre code javascript ici
+
+
+
+
+--></textarea>
 `;
   for (let j = 0; j < exercices[i].entrees.length; j++) {
     let nom = exercices[i].entrees[j];
@@ -61,26 +66,35 @@ for (let i = 0; i < exercices.length; i++) {
   }
   contenu += `
     <input type="button" class="exercice__bouton" value="Test" id="ex-${i}-test" />
-    <div class="exercice__affichage" id="ex-${i}-affichage"></div>
+    <div class="exercice__affichage" id="ex-${i}-affichage"></div>`;
+
+  // contenu += exercices[i].contenuAdditionnel ? exercices[i].contenuAdditionnel: "";
+  contenu +=`
   </section>
   
   `;
-
-  tests += `
-  document.getElementById("ex-${i}-test").onclick = function() {
-    let affichage="";`;
-
-  for (let j = 0; j < exercices[i].entrees.length; j++) {
-    let nom = exercices[i].entrees[j];
-    tests += `
-    let ${exercices[i].entrees[j]} = document.getElementById("ex-${i}-e-${exercices[i].entrees[j]}").value ;`;
-  }
-
-  tests += `
-    let code = document.getElementById("ex-${i}-code").innerText;
-  ${exercices[i].test}
+  initialisation = exercices[i].initialisation ? exercices[i].initialisation : "";
+  scripts += `
+  (function() {
+    let noExercice = ${i};
+    let affichage="";
+    ${initialisation};
     document.getElementById("ex-${i}-affichage").innerHTML = affichage ;
-  } `;
+
+    document.getElementById("ex-${i}-test").onclick = function() {`;
+
+    for (let j = 0; j < exercices[i].entrees.length; j++) {
+      let nom = exercices[i].entrees[j];
+      scripts += `
+      let ${exercices[i].entrees[j]} = document.getElementById("ex-${i}-e-${exercices[i].entrees[j]}").value ;`;
+    }
+  
+    scripts += `
+      let code = document.getElementById("ex-${i}-code").value.match(/(?<=<!--)[\\s\\S]*(?=-->)/mg)[0];
+      ${exercices[i].test}
+      document.getElementById("ex-${i}-affichage").innerHTML = affichage ;
+    } 
+  })();`;
 }
 
 let pageComplete = 
@@ -88,7 +102,7 @@ let pageComplete =
 entetePage + 
 contenu + ` 
   <script>
-${jsobf.obfuscate(tests)}
+${/*jsobf.obfuscate*/(scripts)}
   </script>
 ` +
 `
