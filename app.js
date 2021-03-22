@@ -61,23 +61,25 @@ for (let i = 0; i < exercices.length; i++) {
 `;
   for (let j = 0; j < exercices[i].entrees.length; j++) {
     let nom = exercices[i].entrees[j];
+  
     contenu += `
     <label class="exercice__label-entree">${nom} : <input class="exercice__entree" name="nom" id="ex-${i}-e-${nom}" /></label>`;
   }
+  let contenuInitialisation = exercices[i].contenuInitialisation ? exercices[i].contenuInitialisation : "";
   contenu += `
     <input type="button" class="exercice__bouton" value="Test" id="ex-${i}-test" />
-    <div class="exercice__affichage" id="ex-${i}-affichage"></div>`;
+    <div class="exercice__affichage" id="ex-${i}-affichage">${contenuInitialisation}</div>`;
 
   // contenu += exercices[i].contenuAdditionnel ? exercices[i].contenuAdditionnel: "";
   contenu +=`
   </section>
   
   `;
-  initialisation = exercices[i].initialisation ? exercices[i].initialisation : "";
+  initialisation = exercices[i].scriptInitialisation ? exercices[i].scriptInitialisation : "";
   scripts += `
   (function() {
     let noExercice = ${i};
-    let affichage="";
+    let affichage = document.getElementById("ex-${i}-affichage").innerHTML;
     ${initialisation};
     document.getElementById("ex-${i}-affichage").innerHTML = affichage ;
 
